@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ss="http://www.springframework.org/schema/security"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+   	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+   	http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+   	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+   	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+   	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<import resource="classpath:application-wx-redis.xml" />
+	<context:component-scan base-package="com.saic.framework.web" />
+	<context:annotation-config />
+	<!-- 框架中需要用到的参数配置 -->
+	<bean id="wxConstant" class="com.saic.framework.web.wechat.constant.WxConstant">
+		<!-- 用户的token失效时间 -->
+		<property name="tokenFailureTime"
+			value="${saic.framework.web.common.location.userlogin.token.failuretime:1800}" />
+		<!-- 用户的token key -->
+		<property name="wxTokenRedisKey"
+			value="${saic.framework.web.common.cxh.wechat.token.redis.key:gh_72fe40f76a52}" />
+		<!-- 用户的ticket key -->
+		<property name="wxTicketRedisKey"
+			value="${saic.framework.web.common.cxh.wechat.ticket.redis.key:JSAPITOKEN_01}" />
+		<!-- 微信url跳转地址 -->
+		<property name="wxoauthJumpUrlAddress" value="${saic.framework.web.common.cxh.wechat.location.oauthaddress}" />
+		<!-- 微信中appId的value -->
+		<property name="wxAppId" value="${saic.framework.web.common.cxh.wechat.appid}" />
+		<!-- 微信中appsecret的value -->
+		<property name="wxAppSecret" value="${saic.framework.web.common.cxh.wechat.appsecret}" />
+		<!-- 系统访问用户登录路径如：http://m.dds.com/account/wxLogin.html -->
+		<property name="visitUserLoginUrl" value="${saic.framework.web.common.wxoauth2.show.user.userLogin}" />
+		<!-- 微信url跳转状态 -->
+		<property name="wxoauthJumpStatus" value="${saic.framework.web.common.cxh.wechat.jumpstatus:1}" />
+		<!-- session中存openid的key -->
+		<property name="wxOpenIdSession"
+			value="${saic.framework.web.common.session.openid:SESSION_SAIC_WX_OPENID}" />
+		<!-- session中存userid的key -->
+		<property name="cxUserIdSession"
+			value="${saic.framework.web.common.session.userid:SESSION_SAIC_CX_USERID}" />
+		<property name="testEnable"
+			value="${saic.framework.web.common.wxoauth.istest:false}" />
+		<!-- token定时刷新时间 -->
+		<property name="wxTokenTimingRefreshTime"
+			value="${saic.framework.web.common.wechat.token.failuretime:7000}" />
+	</bean>
+	
+	<bean id="SSOInterceptorHelper" class="com.saic.sso.client.SSOInterceptorHelper">
+	</bean>
+</beans>
